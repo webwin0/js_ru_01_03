@@ -3,11 +3,8 @@ import Article from './Article'
 import CommentList from './CommentList'
 
 class ArticleList extends Component {
-    constructor() {
-        super()
-        this.state = {
-            openArticleId: null
-        }
+    state = {
+        openArticleId: null
     }
     render() {
         const articles = this.props.articles.map((article) =>

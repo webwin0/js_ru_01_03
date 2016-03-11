@@ -1,7 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import CommentList from './CommentList'
 
 class Article extends Component {
+    static propTypes = {
+        isOpen: PropTypes.bool,
+        artilce: PropTypes.object.isRequired
+    }
+
     render() {
         return (
             <div>
