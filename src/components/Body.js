@@ -1,5 +1,5 @@
 import React from 'react'
-import CommentList from './CommentList'
+import CommentList from './CommentListOld'
 
 export default (props) => {
     const { isOpen, article} = props
