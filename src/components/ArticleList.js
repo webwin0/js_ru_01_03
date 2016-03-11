@@ -6,15 +6,15 @@ class ArticleList extends Component {
     constructor() {
         super()
         this.state = {
-            selected: []
+            openArticleId: null
         }
     }
     render() {
         const articles = this.props.articles.map((article) =>
             <li key={article.id}>
                 <Article article={article}
-                         select = {this.select(article.id).bind(this)}
-                         selected = {this.state.selected.includes(article.id)}/>
+                         openArticle = {this.openArticle(article.id)}
+                         isOpen = {article.id === this.state.openArticleId}/>
             </li>
         )
         return (
@@ -26,12 +26,9 @@ class ArticleList extends Component {
         )
     }
 
-    select(id) {
-        return function() {
-            this.setState({
-                selected: this.state.selected.concat(id)
-            })
-        }
+    openArticle = (openArticleId) => (ev) => {
+        if (ev) ev.preventDefault()
+        this.setState({ openArticleId })
     }
 }
 
