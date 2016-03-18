@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react'
 import Comment from './Comment'
 import toggleOpen from '../HOC/toggleOpen'
-import linkedState from 'react-addons-linked-state-mixin'
+import { createComment } from '../actions/comments'
 
 const CommentList = React.createClass({
-    mixins: [linkedState],
     propTypes: {
         comments: PropTypes.array
     },
     getInitialState() {
         return {
-            comment: ''
+            comment: '',
+            text: ''
         }
     },
     render() {
@@ -26,12 +26,23 @@ const CommentList = React.createClass({
             </div>
         )
     },
+
     getInput() {
         if (!this.props.isOpen) return null
         return <div>
-            <input valueLink={this.linkState("comment")}/>
-            <a href = "#">add comment</a>
+            <input name="text" value={this.state.text} onChange = {this.onChange} />
+            <a href = "#" onClick = {this.handleCreate}>add comment</a>
         </div>
+    },
+
+    onChange(ev, value) {
+        this.setState({text: ev.target.value})
+    },
+
+    handleCreate(ev) {
+        ev.preventDefault()
+        createComment(this.state.text, this.props.articleId)
+        this.setState({text: ''})
     }
 })
 
