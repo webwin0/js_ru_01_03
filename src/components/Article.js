@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
+import {findDOMNode} from 'react-dom'
 import CommentList from './CommentList'
+import { deleteArticle } from '../actions/articles'
 
 class Article extends Component {
     static propTypes = {
@@ -7,19 +9,19 @@ class Article extends Component {
         article: PropTypes.object.isRequired
     }
 
-
-    componentWillMount() {
-        console.log('---', 'going to mount');
-    }
-
     render() {
         return (
-            <div>
-                <a href = "#" onClick = {this.props.openArticle}>select</a>
+            <div ref="container">
+                <a href = "#" onClick = {this.handleDelete}>delete</a>
                 {this.getTitle()}
                 {this.getBody()}
             </div>
         )
+    }
+
+    handleDelete = (ev) => {
+        ev.preventDefault()
+        deleteArticle(this.props.article.id)
     }
 
     getBody() {
@@ -28,7 +30,7 @@ class Article extends Component {
         return (
             <div>
                 <p>{article.text}</p>
-                <CommentList comments = {article.comments || []} />
+                <CommentList ref= "comments" comments = {article.getRelation('comments')} />
             </div>
         )
     }

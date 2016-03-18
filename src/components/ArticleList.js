@@ -1,29 +1,27 @@
 import React, { Component, PropTypes } from 'react'
 import Article from './Article'
-import isSelected from '../HOC/isSelected'
+import CommentList from './CommentList'
+import oneOpen from '../HOC/oneOpen'
 
 class ArticleList extends Component {
-
     render() {
-        const { openArticleId, openArticle} = this.props
-
-        const articles = this.props.articles.map((article) =>
+        const { articles, isItemOpen, openItem } = this.props
+        const articleItems = articles.map((article) =>
             <li key={article.id}>
                 <Article article={article}
-                         openArticle = {openArticle(article.id)}
-                         isOpen = {article.id === openArticleId}/>
+                         openArticle = {openItem(article.id)}
+                         isOpen = {isItemOpen(article.id)}/>
             </li>
         )
         return (
             <div>
                 <ul>
-                    {articles}
+                    {articleItems}
                 </ul>
             </div>
         )
     }
 
-
 }
 
-export default isSelected(ArticleList)
+export default oneOpen(ArticleList)
