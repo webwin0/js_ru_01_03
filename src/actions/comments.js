@@ -1,12 +1,9 @@
-import AppDiscpatcher from '../dispatcher'
-import { CREATE_COMMENT } from './constants'
+import { ADD_COMMENT } from './constants'
+import AppDispatcher from '../dispatcher'
 
-export function createComment(text, articleId) {
-  AppDiscpatcher.dispatch({
-    type: CREATE_COMMENT,
-    data: {
-      text,
-      articleId
-    }
-  })
+export function addComment(comment, articleId) {
+    AppDispatcher.dispatch({
+        type: ADD_COMMENT,
+        data: {comment, articleId}
+    })
 }
