@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import {findDOMNode} from 'react-dom'
 import CommentList from './CommentList'
+import Loader from './Loader'
 import { deleteArticle, loadArticleById } from '../actions/articles'
-import { addComment } from '../actions/comments'
+import { addComment, loadComments } from '../actions/comments'
 
 class Article extends Component {
     static propTypes = {
@@ -14,7 +15,10 @@ class Article extends Component {
         const { article, isOpen } = nextProps
         if (article.loaded || article.loading) return
 
-        if (isOpen && !this.props.isOpen) loadArticleById({id: article.id})
+        if (isOpen && !this.props.isOpen) {
+          loadArticleById({id: article.id})
+          loadComments({article: article.id})
+        }
     }
 
 
@@ -47,11 +51,13 @@ class Article extends Component {
 
     getCommentList() {
         const { article } = this.props
+
         const comments = article.getRelation('comments')
-        if (comments.includes(undefined)) return <h3>comments: {comments.length}</h3>
-        return  <CommentList ref= "comments"
-                             comments = {comments}
-                             addComment = {this.addComment}/>
+        let commentsCount = ''
+        if (comments.includes(undefined)) commentsCount = (<h3>comments: {comments.length}</h3>)
+        return  <div><span>{commentsCount}</span><CommentList ref= "comments"
+                             article = {article}
+                             addComment = {this.addComment}/></div>
 
     }
 

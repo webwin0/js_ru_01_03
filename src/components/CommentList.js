@@ -6,7 +6,7 @@ import linkedState from 'react-addons-linked-state-mixin'
 const CommentList = React.createClass({
     mixins: [linkedState],
     propTypes: {
-        comments: PropTypes.array,
+        article: PropTypes.object.isRequired,
         addComment: PropTypes.func.isRequired
     },
     getInitialState() {
@@ -15,8 +15,13 @@ const CommentList = React.createClass({
         }
     },
     render() {
-        const { isOpen, comments, toggleOpen } = this.props
+        const { isOpen, article, toggleOpen } = this.props
         const actionText = isOpen ? 'hide comments' : 'show comments'
+
+        const comments =  article.getRelation('comments')
+        if (comments.includes(undefined)) {
+            return <div><a href = "#" onClick = {toggleOpen}>{actionText}</a></div>
+        }
 
         const commentItems = comments.map((comment) => <li key={comment.id}><Comment comment = {comment}/></li>)
         return (
